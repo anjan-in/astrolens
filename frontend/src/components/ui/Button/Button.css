@@ -1,0 +1,117 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  user-select: none;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease,
+    box-shadow 150ms ease,
+    opacity 150ms ease;
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 2px;
+}
+
+/* Width */
+.button--full-width {
+  width: 100%;
+}
+
+/* Sizes */
+.button--sm {
+  min-height: 2rem;
+  padding: 0 var(--space-3);
+  font-size: var(--font-size-sm);
+}
+
+.button--md {
+  min-height: 2.5rem;
+  padding: 0 var(--space-4);
+  font-size: var(--font-size-sm);
+}
+
+.button--lg {
+  min-height: 3rem;
+  padding: 0 var(--space-5);
+  font-size: var(--font-size-md);
+}
+
+/* Variants */
+.button--primary {
+  background: var(--color-primary-700);
+  color: var(--color-neutral-0);
+}
+
+.button--primary:hover:not(:disabled) {
+  background: var(--color-primary-800);
+}
+
+.button--secondary {
+  background: var(--color-primary-100);
+  color: var(--color-primary-800);
+}
+
+.button--secondary:hover:not(:disabled) {
+  background: var(--color-primary-200);
+}
+
+.button--outline {
+  background: transparent;
+  border-color: var(--color-neutral-300);
+  color: var(--color-neutral-700);
+}
+
+.button--outline:hover:not(:disabled) {
+  background: var(--color-neutral-100);
+  border-color: var(--color-neutral-400);
+}
+
+.button--ghost {
+  background: transparent;
+  color: var(--color-neutral-700);
+}
+
+.button--ghost:hover:not(:disabled) {
+  background: var(--color-neutral-100);
+}
+
+.button--danger {
+  background: var(--color-error);
+  color: var(--color-neutral-0);
+}
+
+.button--danger:hover:not(:disabled) {
+  background: var(--color-error-hover);
+}
+
+/* States */
+.button:disabled,
+.button--loading {
+  opacity: 0.6;
+}
+
+.button__spinner {
+  width: 1em;
+  height: 1em;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: button-spin 0.75s linear infinite;
+}
+
+@keyframes button-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
