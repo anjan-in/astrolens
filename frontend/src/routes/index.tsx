@@ -9,6 +9,7 @@ import HomePage from '../pages/Home/HomePage';
 import LoginPage from '../pages/Login/LoginPage';
 import RegisterPage from '../pages/Register/RegisterPage';
 import DashboardPage from '../pages/Dashboard/DashboardPage';
+import DesignSystemPage from '../pages/DesignSystem/DesignSystemPage';
 import NotFoundPage from '../pages/NotFound/NotFoundPage';
 
 export const router = createBrowserRouter([
@@ -18,6 +19,10 @@ export const router = createBrowserRouter([
       {
         path: ROUTES.HOME,
         element: <HomePage />,
+      },
+      {
+        path: ROUTES.DESIGN_SYSTEM,
+        element: <DesignSystemPage />,
       },
     ],
   },
