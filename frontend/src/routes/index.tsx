@@ -5,12 +5,13 @@ import MainLayout from '../layouts/MainLayout/MainLayout';
 import AuthLayout from '../layouts/AuthLayout/AuthLayout';
 import DashboardLayout from '../layouts/DashboardLayout/DashboardLayout';
 
-import HomePage from '../pages/Home/HomePage';
+// import HomePage from '../pages/Home/HomePage';
 import LoginPage from '../pages/Login/LoginPage';
 import RegisterPage from '../pages/Register/RegisterPage';
 import DashboardPage from '../pages/Dashboard/DashboardPage';
 import DesignSystemPage from '../pages/DesignSystem/DesignSystemPage';
 import NotFoundPage from '../pages/NotFound/NotFoundPage';
+import LandingPage from '../features/landing/pages/LandingPage';
 
 export const router = createBrowserRouter([
   {
@@ -18,8 +19,12 @@ export const router = createBrowserRouter([
     children: [
       {
         path: ROUTES.HOME,
-        element: <HomePage />,
+        element: <LandingPage />,
       },
+      // {
+      //   path: ROUTES.HOME,
+      //   element: <HomePage />,
+      // },
       {
         path: ROUTES.DESIGN_SYSTEM,
         element: <DesignSystemPage />,
