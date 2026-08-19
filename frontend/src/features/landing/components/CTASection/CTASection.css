@@ -1,0 +1,39 @@
+.cta-section {
+  padding: 7rem 0;
+
+  background: var(--color-primary-900);
+}
+
+.cta-section__content {
+  max-width: 720px;
+  margin: 0 auto;
+
+  text-align: center;
+}
+
+.cta-section__eyebrow {
+  color: var(--color-primary-300);
+
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.cta-section h2 {
+  margin: var(--space-4) 0;
+
+  color: white;
+
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+}
+
+.cta-section p {
+  max-width: 580px;
+  margin: 0 auto var(--space-8);
+
+  color: var(--color-primary-100);
+
+  line-height: 1.7;
+}
