@@ -1,0 +1,11 @@
+.register-form__name {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+@media (max-width: 520px) {
+  .register-form__name {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,12 +1,34 @@
+import { Sparkles } from 'lucide-react';
 import { Outlet } from 'react-router-dom';
+import './AuthLayout.css';
 
 export default function AuthLayout() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center p-4">
-      <div className="mb-6 text-2xl font-bold">Astrolens</div>
-      <div className="w-full max-w-md rounded-lg border p-6 shadow-sm">
-        <Outlet />
-      </div>
+    <div className="auth-layout">
+      <aside className="auth-layout__visual">
+        <div className="auth-layout__brand">
+          <span className="auth-layout__logo">
+            <Sparkles size={18} />
+          </span>
+          <span>AstroLens</span>
+        </div>
+
+        <div className="auth-layout__message">
+          <span>UNDERSTAND YOUR PATTERNS</span>
+          <h1>A clearer way to understand yourself.</h1>
+          <p>
+            Explore your patterns through thoughtful assessments, visual insights, and guided learning.
+          </p>
+        </div>
+
+        <div />
+      </aside>
+
+      <main className="auth-layout__content">
+        <div className="auth-layout__form">
+          <Outlet />
+        </div>
+      </main>
     </div>
   );
 }
