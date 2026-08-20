@@ -4,14 +4,20 @@ import { ROUTES } from '../constants/routes';
 import MainLayout from '../layouts/MainLayout/MainLayout';
 import AuthLayout from '../layouts/AuthLayout/AuthLayout';
 import DashboardLayout from '../layouts/DashboardLayout/DashboardLayout';
+import ProtectedRoute from './ProtectedRoute';
 
-// import HomePage from '../pages/Home/HomePage';
-import LoginPage from '../pages/Login/LoginPage';
-import RegisterPage from '../pages/Register/RegisterPage';
+import LandingPage from '../features/landing/pages/LandingPage';
+import {
+  LoginPage,
+  RegisterPage,
+  ForgotPasswordPage,
+  ResetPasswordPage,
+  VerifyEmailPage,
+} from '../features/auth';
+
 import DashboardPage from '../pages/Dashboard/DashboardPage';
 import DesignSystemPage from '../pages/DesignSystem/DesignSystemPage';
 import NotFoundPage from '../pages/NotFound/NotFoundPage';
-import LandingPage from '../features/landing/pages/LandingPage';
 
 export const router = createBrowserRouter([
   {
@@ -21,10 +27,6 @@ export const router = createBrowserRouter([
         path: ROUTES.HOME,
         element: <LandingPage />,
       },
-      // {
-      //   path: ROUTES.HOME,
-      //   element: <HomePage />,
-      // },
       {
         path: ROUTES.DESIGN_SYSTEM,
         element: <DesignSystemPage />,
@@ -42,14 +44,31 @@ export const router = createBrowserRouter([
         path: ROUTES.REGISTER,
         element: <RegisterPage />,
       },
+      {
+        path: ROUTES.FORGOT_PASSWORD,
+        element: <ForgotPasswordPage />,
+      },
+      {
+        path: ROUTES.RESET_PASSWORD,
+        element: <ResetPasswordPage />,
+      },
+      {
+        path: ROUTES.VERIFY_EMAIL,
+        element: <VerifyEmailPage />,
+      },
     ],
   },
   {
-    element: <DashboardLayout />,
+    element: <ProtectedRoute />,
     children: [
       {
-        path: ROUTES.DASHBOARD,
-        element: <DashboardPage />,
+        element: <DashboardLayout />,
+        children: [
+          {
+            path: ROUTES.DASHBOARD,
+            element: <DashboardPage />,
+          },
+        ],
       },
     ],
   },
