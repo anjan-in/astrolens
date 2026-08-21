@@ -1,4 +1,9 @@
-import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from 'react';
+import { 
+  forwardRef, 
+  type ButtonHTMLAttributes, 
+  type ReactNode 
+} from 'react';
+import Spinner from '../Spinner/Spinner';
 import './Button.css';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
@@ -53,16 +58,20 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
       >
         {loading ? (
-          <span className="button__spinner" aria-hidden="true" />
-        ) : icon ? (
-          <span className="button__icon" aria-hidden="true">{icon}</span>
-        ) : null}
-        {children && <span>{children}</span>}
+          <>
+            <Spinner size="sm" />
+            <span>Loading...</span>
+          </>
+        ) : (
+          <>
+            {icon && <span className="button__icon" aria-hidden="true">{icon}</span>}
+            {children && <span>{children}</span>}
+          </>
+        )}
       </button>
     );
   }
 );
 
 Button.displayName = 'Button';
-
 export default Button;
