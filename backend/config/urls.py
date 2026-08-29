@@ -16,8 +16,28 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from rest_framework.response import Response
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
+
+@api_view(["GET"])
+@permission_classes([AllowAny])
+def root_api(request):
+    return Response({
+        "name": "AstroLens API",
+        "version": "v1",
+        "status": "online",
+        "endpoints": {
+            "health": "/api/users/health/",
+            "register": "/api/auth/register/",
+            "login": "/api/auth/login/",
+            "token_refresh": "/api/auth/token/refresh/",
+            "me": "/api/auth/me/",
+        }
+    })
 
 urlpatterns = [
+    path("", root_api, name="api-root"),
     path('admin/', admin.site.urls),
     path("api/", include("config.api_urls")),
 ]
