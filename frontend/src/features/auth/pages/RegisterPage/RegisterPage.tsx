@@ -1,14 +1,18 @@
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link, useNavigate } from 'react-router-dom';
 import { registerSchema, type RegisterFormData } from '../../schemas/register.schema';
-import { Input, Button, Checkbox } from '../../../../components/ui';
+import { registerUser } from '../../services/auth.api';
+import { Input, Button, Checkbox, Alert } from '../../../../components/ui';
 import { ROUTES } from '../../../../constants/routes';
 import '../LoginPage/LoginPage.css';
 import './RegisterPage.css';
 
 export default function RegisterPage() {
   const navigate = useNavigate();
+  const [apiError, setApiError] = useState<string | null>(null);
+
   const {
     register,
     handleSubmit,
@@ -17,9 +21,22 @@ export default function RegisterPage() {
     resolver: zodResolver(registerSchema),
   });
 
-  const onSubmit = async (_data: RegisterFormData) => {
-    await new Promise((res) => setTimeout(res, 800));
-    navigate(ROUTES.VERIFY_EMAIL);
+  const onSubmit = async (data: RegisterFormData) => {
+    setApiError(null);
+    try {
+      await registerUser({
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        password: data.password,
+        passwordConfirmation: data.confirmPassword,
+      });
+      navigate(ROUTES.LOGIN);
+    } catch (err: any) {
+      const emailErr = err.response?.data?.email?.[0];
+      const generalErr = err.response?.data?.detail || 'Failed to create account.';
+      setApiError(emailErr || generalErr);
+    }
   };
 
   return (
@@ -30,6 +47,8 @@ export default function RegisterPage() {
       </div>
 
       <form className="auth-form" onSubmit={handleSubmit(onSubmit)}>
+        {apiError && <Alert variant="error">{apiError}</Alert>}
+
         <div className="register-form__name">
           <Input
             id="firstName"
@@ -63,7 +82,7 @@ export default function RegisterPage() {
           type="password"
           placeholder="Create a password"
           autoComplete="new-password"
-        //   helperText="At least 8 characters, including a letter and a number."
+          // helperText="At least 8 characters, including a letter and a number."
           error={errors.password?.message}
           {...register('password')}
         />

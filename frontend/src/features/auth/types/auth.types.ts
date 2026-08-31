@@ -1,9 +1,15 @@
 export interface User {
-  id: string;
+  id: number;
+  email: string;
   firstName: string;
   lastName: string;
-  email: string;
   emailVerified: boolean;
+  createdAt: string;
+}
+
+export interface AuthTokens {
+  access: string;
+  refresh: string;
 }
 
 export interface AuthState {

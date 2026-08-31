@@ -1,13 +1,18 @@
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link, useNavigate } from 'react-router-dom';
 import { loginSchema, type LoginFormData } from '../../schemas/login.schema';
 import { Input, Button, Alert } from '../../../../components/ui';
+import { useAuthStore } from '../../store/auth.store';
 import { ROUTES } from '../../../../constants/routes';
 import './LoginPage.css';
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const login = useAuthStore((state) => state.login);
+  const [apiError, setApiError] = useState<string | null>(null);
+
   const {
     register,
     handleSubmit,
@@ -16,10 +21,16 @@ export default function LoginPage() {
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = async (_data: LoginFormData) => {
-    // Simulated auth delay
-    await new Promise((res) => setTimeout(res, 800));
-    navigate(ROUTES.DASHBOARD);
+  const onSubmit = async (data: LoginFormData) => {
+    setApiError(null);
+    try {
+      await login(data.email, data.password);
+      navigate(ROUTES.DASHBOARD);
+    } catch (err: any) {
+      const message =
+        err.response?.data?.detail || 'Invalid email or password. Please try again.';
+      setApiError(message);
+    }
   };
 
   return (
@@ -30,6 +41,8 @@ export default function LoginPage() {
       </div>
 
       <form className="auth-form" onSubmit={handleSubmit(onSubmit)}>
+        {apiError && <Alert variant="error">{apiError}</Alert>}
+
         <Input
           id="email"
           label="Email address"
@@ -57,10 +70,6 @@ export default function LoginPage() {
         <Button type="submit" size="lg" fullWidth loading={isSubmitting}>
           Sign in
         </Button>
-
-        <Alert variant="info">
-          Authentication API will be connected in the backend phase.
-        </Alert>
       </form>
 
       <p className="auth-page__footer">
