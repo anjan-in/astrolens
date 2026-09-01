@@ -15,9 +15,10 @@ import {
   VerifyEmailPage,
 } from '../features/auth';
 
-import DashboardPage from '../pages/Dashboard/DashboardPage';
+// import DashboardPage from '../pages/Dashboard/DashboardPage';
 import DesignSystemPage from '../pages/DesignSystem/DesignSystemPage';
 import NotFoundPage from '../pages/NotFound/NotFoundPage';
+import DashboardPage from '../features/dashboard/pages/DashboardPage/DashboardPage';
 
 export const router = createBrowserRouter([
   {
