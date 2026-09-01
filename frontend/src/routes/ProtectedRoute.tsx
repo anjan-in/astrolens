@@ -1,21 +1,36 @@
-import { Navigate, Outlet } from 'react-router-dom';
-import { useAuthStore } from '../features/auth/store/auth.store';
-import { Spinner } from '../components/ui';
-import { ROUTES } from '../constants/routes';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import { Spinner } from '@/components/ui';
+import { useAuthStore } from '@/features/auth/store/auth.store';
 
 export default function ProtectedRoute() {
+  const location = useLocation();
   const { isAuthenticated, isLoading } = useAuthStore();
 
   if (isLoading) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
+      <div
+        style={{
+          display: 'flex',
+          minHeight: '100vh',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
         <Spinner size="lg" />
       </div>
     );
   }
 
   if (!isAuthenticated) {
-    return <Navigate to={ROUTES.LOGIN} replace />;
+    return (
+      <Navigate
+        to="/login"
+        replace
+        state={{
+          from: location,
+        }}
+      />
+    );
   }
 
   return <Outlet />;

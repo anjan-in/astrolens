@@ -1,17 +1,20 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { loginSchema, type LoginFormData } from '../../schemas/login.schema';
-import { Input, Button, Alert } from '../../../../components/ui';
+import { Input, Button, Alert } from '@/components/ui';
 import { useAuthStore } from '../../store/auth.store';
-import { ROUTES } from '../../../../constants/routes';
+import { ROUTES } from '@/constants/routes';
 import './LoginPage.css';
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const location = useLocation();
   const login = useAuthStore((state) => state.login);
   const [apiError, setApiError] = useState<string | null>(null);
+
+  const from = (location.state as { from?: Location })?.from?.pathname || ROUTES.DASHBOARD;
 
   const {
     register,
@@ -25,7 +28,7 @@ export default function LoginPage() {
     setApiError(null);
     try {
       await login(data.email, data.password);
-      navigate(ROUTES.DASHBOARD);
+      navigate(from, { replace: true });
     } catch (err: any) {
       const message =
         err.response?.data?.detail || 'Invalid email or password. Please try again.';
