@@ -1,11 +1,14 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Button, Alert } from '../../../../components/ui';
-import { ROUTES } from '../../../../constants/routes';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Button, Alert } from '@/components/ui';
+import { ROUTES } from '@/constants/routes';
 import '../LoginPage/LoginPage.css';
 
 export default function VerifyEmailPage() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const email = searchParams.get('email') || 'your registered email';
+
   const [resending, setResending] = useState(false);
   const [resentNotice, setResentNotice] = useState(false);
 
@@ -20,7 +23,9 @@ export default function VerifyEmailPage() {
     <div className="auth-page">
       <div className="auth-page__heading">
         <h1>Check your inbox</h1>
-        <p>We've dispatched a confirmation link to your registered email address.</p>
+        <p>
+          We've sent a verification link to <strong>{email}</strong>.
+        </p>
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
@@ -28,8 +33,8 @@ export default function VerifyEmailPage() {
           <Alert variant="success">A new verification link has been sent to your email.</Alert>
         )}
 
-        <Button size="lg" fullWidth onClick={() => navigate(ROUTES.DASHBOARD)}>
-          Continue to Dashboard
+        <Button size="lg" fullWidth onClick={() => navigate(ROUTES.LOGIN)}>
+          Continue to Sign In
         </Button>
 
         <Button variant="outline" size="md" fullWidth loading={resending} onClick={handleResend}>
@@ -37,7 +42,13 @@ export default function VerifyEmailPage() {
         </Button>
 
         <p className="auth-page__footer">
-          Incorrect email? <span style={{ cursor: 'pointer', color: 'var(--color-primary-700)', fontWeight: 600 }} onClick={() => navigate(ROUTES.REGISTER)}>Change email</span>
+          Incorrect email?{' '}
+          <span
+            style={{ cursor: 'pointer', color: 'var(--color-primary-700)', fontWeight: 600 }}
+            onClick={() => navigate(ROUTES.REGISTER)}
+          >
+            Change email
+          </span>
         </p>
       </div>
     </div>

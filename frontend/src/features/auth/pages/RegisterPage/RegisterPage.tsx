@@ -4,14 +4,15 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Link, useNavigate } from 'react-router-dom';
 import { registerSchema, type RegisterFormData } from '../../schemas/register.schema';
 import { registerUser } from '../../services/auth.api';
-import { Input, Button, Checkbox, Alert } from '../../../../components/ui';
-import { ROUTES } from '../../../../constants/routes';
+import { getApiErrorMessage } from '@/services/api/api-error';
+import { Input, Button, Checkbox, Alert } from '@/components/ui';
+import { ROUTES } from '@/constants/routes';
 import '../LoginPage/LoginPage.css';
 import './RegisterPage.css';
 
 export default function RegisterPage() {
   const navigate = useNavigate();
-  const [apiError, setApiError] = useState<string | null>(null);
+  const [serverError, setServerError] = useState<string | null>(null);
 
   const {
     register,
@@ -22,7 +23,7 @@ export default function RegisterPage() {
   });
 
   const onSubmit = async (data: RegisterFormData) => {
-    setApiError(null);
+    setServerError(null);
     try {
       await registerUser({
         firstName: data.firstName,
@@ -31,11 +32,10 @@ export default function RegisterPage() {
         password: data.password,
         passwordConfirmation: data.confirmPassword,
       });
-      navigate(ROUTES.LOGIN);
-    } catch (err: any) {
-      const emailErr = err.response?.data?.email?.[0];
-      const generalErr = err.response?.data?.detail || 'Failed to create account.';
-      setApiError(emailErr || generalErr);
+
+      navigate(`${ROUTES.VERIFY_EMAIL}?email=${encodeURIComponent(data.email)}`);
+    } catch (error) {
+      setServerError(getApiErrorMessage(error));
     }
   };
 
@@ -47,7 +47,7 @@ export default function RegisterPage() {
       </div>
 
       <form className="auth-form" onSubmit={handleSubmit(onSubmit)}>
-        {apiError && <Alert variant="error">{apiError}</Alert>}
+        {serverError && <Alert variant="error">{serverError}</Alert>}
 
         <div className="register-form__name">
           <Input
